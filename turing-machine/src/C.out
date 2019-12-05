@@ -1,0 +1,33 @@
+start: s
+accept: ac
+reject: rj
+blank: _
+
+s 0 -> s 0 >
+s 1 -> s 1 >
+s _ -> take _ <
+s 2 -> take 2 <
+s 3 -> take 3 <
+
+take 0 -> write0 2 ^
+take 1 -> write1 3 ^
+take 2 -> take 2 <
+take 3 -> take 3 <
+take _ -> skip _ >
+
+write0 2 -> write0 2 >
+write0 3 -> write0 3 >
+write0 _ -> s 2 ^
+
+write1 2 -> write1 2 >
+write1 3 -> write1 3 >
+write1 _ -> s 3 ^
+
+skip 2 -> skip 2 >
+skip 3 -> skip 3 >
+skip _ -> move _ <
+
+move 2 -> move 0 <
+move 3 -> move 1 <
+move _ -> ac _ >
+

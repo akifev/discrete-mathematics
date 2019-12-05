@@ -1,0 +1,83 @@
+3
+
+S 0 _ _ -> DOLLAR 0 < _ < _ <
+S 1 _ _ -> DOLLAR 1 < _ < _ <
+
+DOLLAR _ _ _ -> INIT_RUN $ > $ > _ ^
+
+INIT_RUN 0 _ _ -> ZERO 0 > 0 > _ ^
+INIT_RUN 1 _ _ -> NOT_ZERO 1 > 1 > _ ^
+INIT_RUN _ _ _ -> RESET _ < _ < _ ^
+
+ZERO 0 _ _ -> ZERO 0 > 0 > _ ^
+ZERO 1 _ _ -> NOT_ZERO 1 > 1 > _ ^
+ZERO | _ _ -> PRINT_REV | < | < _ ^
+ZERO _ _ _ -> PRINT_REV | < | < _ ^
+
+PRINT_REV 0 0 _ -> PRINT_REV 0 < 0 < _ ^
+PRINT_REV | | _ -> PRINT_ZERO | > | > _ ^
+PRINT_REV $ $ _ -> PRINT_ZERO $ > $ > _ ^
+
+PRINT_ZERO 0 0 _ -> PRINT_ZERO x > x > 0 >
+PRINT_ZERO | | _ -> INIT_RUN | > | > | >
+PRINT_ZERO $ $ _ -> INIT_RUN $ > $ > | >
+
+NOT_ZERO 0 _ _ -> NOT_ZERO 0 > 0 > _ ^
+NOT_ZERO 1 _ _ -> NOT_ZERO 1 > 1 > _ ^
+NOT_ZERO | _ _ -> INIT_RUN | > | > _ ^
+NOT_ZERO _ _ _ -> RESET | < | < _ ^
+
+DONE x x _ -> DONE x < x < _ ^
+DONE 0 0 _ -> RESET 0 < 0 < _ ^
+DONE 0 1 _ -> RESET 0 < 1 < _ ^
+DONE 1 0 _ -> RESET 1 < 0 < _ ^
+DONE 1 1 _ -> RESET 1 < 1 < _ ^
+DONE | | _ -> DONE | < | < _ ^
+DONE $ $ _ -> CLEAR _ > _ > _ <
+
+CLEAR x x _ -> CLEAR _ > _ > _ ^
+CLEAR x x | -> CLEAR _ > _ > _ ^
+CLEAR | | _ -> CLEAR _ > _ > _ ^
+CLEAR _ _ _ -> WRITE _ < _ < _ <
+
+WRITE _ _ 0 -> WRITE 0 < _ < _ <
+WRITE _ _ 1 -> WRITE 1 < _ < _ <
+WRITE _ _ | -> WRITE | < _ < _ <
+WRITE _ _ _ -> AC _ > _ < _ <
+
+RESET x x _ -> RESET x < x < _ ^
+RESET 0 0 _ -> RESET 0 < 0 < _ ^
+RESET 0 1 _ -> RESET 0 < 1 < _ ^
+RESET 1 0 _ -> RESET 1 < 0 < _ ^
+RESET 1 1 _ -> RESET 1 < 1 < _ ^
+RESET | | _ -> RESET | < | < _ ^
+RESET $ $ _ -> END $ > $ > _ ^
+
+END x x _ -> END x > x > _ ^
+END 0 0 _ -> END 0 > 0 > _ ^
+END 0 1 _ -> END 0 > 1 > _ ^
+END 1 0 _ -> END 1 > 0 > _ ^
+END 1 1 _ -> END 1 > 1 > _ ^
+END | | _ -> DECREMENT / < / < _ ^
+END / / _ -> CHECK \ < \ < _ ^
+END \ \ _ -> END | > | > _ ^
+END _ _ _ -> DONE _ < _ < _ ^
+
+DECREMENT x x _ -> END x > x > _ ^
+DECREMENT 0 0 _ -> DECREMENT 1 < 0 < _ ^
+DECREMENT 0 1 _ -> DECREMENT 1 < 1 < _ ^
+DECREMENT 1 1 _ -> END 0 > 1 > _ ^
+DECREMENT 1 0 _ -> END 0 > 0 > _ ^
+
+CHECK x x _ -> END x > x > _ ^
+CHECK 0 0 _ -> CHECK 0 < 0 < _ ^
+CHECK 0 1 _ -> CHECK 0 < 1 < _ ^
+CHECK 1 0 _ -> END 1 > 0 > _ ^
+CHECK 1 1 _ -> END 1 > 1 > _ ^
+CHECK | | _ -> PRINT | > | > _ ^
+CHECK $ $ _ -> PRINT $ > $ > _ ^
+
+PRINT 0 0 _ -> PRINT x > x > 0 >
+PRINT 0 1 _ -> PRINT x > x > 1 >
+PRINT \ \ _ -> END | > | > | >
+PRINT | | _ -> END | > | > | >

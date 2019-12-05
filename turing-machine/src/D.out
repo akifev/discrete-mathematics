@@ -1,0 +1,56 @@
+start: s
+accept: ac
+reject: rj
+blank: _
+
+
+s 0 -> a 2 >
+s 1 -> a 3 >
+s 4 -> solve 4 <
+s 5 -> solve 5 <
+
+
+a 0 -> a 0 >
+a 1 -> a 1 >
+a _ -> b _ <
+a 4 -> b 4 <
+a 5 -> b 5 <
+
+b 0 -> back 4 <
+b 1 -> back 5 <
+b 3 -> rj 3 ^
+b 4 -> rj 4 ^
+
+back 0 -> back 0 <
+back 1 -> back 1 <
+back 2 -> s 2 >
+back 3 -> s 3 >
+
+solve 2 -> solve 2 <
+solve 3 -> solve 3 <
+solve _ -> check _ >
+solve x -> check x >
+
+check 2 -> a2 x >
+check 3 -> a3 x >
+
+a2 x -> a2 x >
+a2 2 -> a2 2 >
+a2 3 -> a2 3 >
+a2 4 -> skip x <
+a2 5 -> rj 5 ^
+a2 _ -> rj _ ^
+
+a3 x -> a3 x >
+a3 2 -> a3 2 >
+a3 3 -> a3 3 >
+a3 4 -> rj 4 ^
+a3 5 -> skip x <
+a3 _ -> rj _ ^
+
+skip x -> skip x <
+skip 2 -> solve 2 ^
+skip 3 -> solve 3 ^
+skip _ -> ac _ ^
+
+

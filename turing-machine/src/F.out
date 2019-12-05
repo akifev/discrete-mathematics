@@ -1,0 +1,37 @@
+start: s
+accept: ac
+reject: rj
+blank: _
+
+s 0 -> s 0 >
+s 1 -> s 1 >
+s _ -> a $ <
+
+a 0 -> b - ^
+a 1 -> c + ^
+a - -> a - <
+a + -> a + <
+a $ -> a $ <
+a _ -> clean _ >
+
+clean - -> clean _ >
+clean + -> clean _ >
+clean $ -> invert _ >
+
+invert - -> invert 0 >
+invert + -> invert 1 >
+invert _ -> back _ <
+
+back 0 -> back 0 <
+back 1 -> back 1 <
+back _ -> ac _ >
+
+b - -> b - >
+b + -> b + >
+b $ -> b $ >
+b _ -> a - ^
+
+c - -> c - >
+c + -> c + >
+c $ -> c $ >
+c _ -> a + ^

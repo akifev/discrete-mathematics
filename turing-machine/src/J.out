@@ -1,0 +1,28 @@
+2
+
+S 0 _ -> S _ > 0 >
+S 1 _ -> S _ > 1 >
+S a _ -> AND _ ^ _ <
+S o _ -> OR _ ^ _ <
+S _ _ -> RESULT _ ^ _ <
+
+AND _ 1 -> AND_TRUE _ ^ _ <
+AND _ 0 -> AND_FALSE _ ^ _ <
+
+AND_TRUE _ 0 -> S _ > 0 >
+AND_TRUE _ 1 -> S _ > 1 >
+
+AND_FALSE _ 0 -> S _ > 0 >
+AND_FALSE _ 1 -> S _ > 0 >
+
+OR _ 1 -> OR_TRUE _ ^ _ <
+OR _ 0 -> OR_FALSE _ ^ _ <
+
+OR_TRUE _ 0 -> S _ > 1 >
+OR_TRUE _ 1 -> S _ > 1 >
+
+OR_FALSE _ 0 -> S _ > 0 >
+OR_FALSE _ 1 -> S _ > 1 >
+
+RESULT _ 0 -> AC 0 ^ _ ^
+RESULT _ 1 -> AC 1 ^ _ ^

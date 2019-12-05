@@ -1,0 +1,91 @@
+start: IF
+accept: AC
+reject: RJ
+blank: _
+
+IF 0 -> SEPARATOR 0 <
+IF 1 -> SEPARATOR 1 <
+
+SEPARATOR _ -> END + >
+
+END 0 -> END 0 >
+END 1 -> END 1 >
+END + -> END + >
+END / -> END + >
+END o -> END 0 >
+END l -> END 1 >
+END _ -> DECREMENT _ <
+END * -> END * >
+
+DECREMENT 0 -> DECREMENT 1 <
+DECREMENT 1 -> BEGIN 0 ^
+DECREMENT * -> CLEARING * >
+
+BEGIN 0 -> BEGIN 0 <
+BEGIN 1 -> BEGIN 1 <
+BEGIN * -> REDUCE * >
+BEGIN _ -> ACC _ >
+
+ACC _ -> AC 0 ^
+ACC 1 -> AC 1 ^
+ACC 0 -> AC 0 ^
+
+REDUCE 0 -> DELETE_LAST 1 >
+REDUCE 1 -> GO_BACK 1 <
+
+CLEARING 0 -> CLEARING _ <
+CLEARING 1 -> CLEARING _ <
+CLEARING + -> BEGIN _ <
+CLEARING * -> CLEARING _ <
+CLEARING _ -> CLEARING _ <
+
+DELETE_LAST 1 -> DELETE_LAST 1 >
+DELETE_LAST _ -> DELETE _ <
+
+DELETE 1 -> GO_BACK _ <
+
+GO_BACK 1 -> GO_BACK 1 <
+GO_BACK * -> a * <
+
+s 0 -> s 0 >
+s 1 -> s 1 >
+s + -> s + >
+s o -> a o <
+s l -> a l <
+s / -> a / <
+s 2 -> s 2 >
+s 3 -> s 3 >
+
+a 0 -> a0 o <
+a 1 -> a1 l <
+a + -> move / <
+
+a0 0 -> a0 0 <
+a0 1 -> a0 1 <
+a0 + -> add_a0 + <
+
+add_a0 2 -> add_a0 2 <
+add_a0 3 -> add_a0 3 <
+add_a0 0 -> s 2 ^
+add_a0 1 -> s 3 ^
+add_a0 _ -> s 2 ^
+
+a1 0 -> a1 0 <
+a1 1 -> a1 1 <
+a1 + -> add_a1 + <
+
+add_a1 2 -> add_a1 2 <
+add_a1 3 -> add_a1 3 <
+add_a1 0 -> s 3 ^
+add_a1 1 -> tr 2 <
+add_a1 _ -> s 3 ^
+
+tr 0 -> s 1 ^
+tr 1 -> tr 0 <
+tr _ -> s 1 ^
+
+move 2 -> move 0 <
+move 3 -> move 1 <
+move _ -> END _ >
+move 0 -> move 0 <
+move 1 -> move 1 <

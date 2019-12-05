@@ -1,0 +1,207 @@
+start: IF
+accept: AC
+reject: RJ
+blank: _
+
+IF 1 -> IF_1 1 >
+
+IF_1 _ -> AC _ <
+IF_1 1 -> SET_MUL_OPERATOR 1 <
+IF_1 0 -> SET_MUL_OPERATOR 0 <
+
+SET_MUL_OPERATOR 0 -> SET_MUL_OPERATOR 0 >
+SET_MUL_OPERATOR 1 -> SET_MUL_OPERATOR 1 >
+SET_MUL_OPERATOR _ -> COPY * <
+
+COPY 0 -> COPY 0 <
+COPY 1 -> COPY 1 <
+COPY * -> COPY * <
+COPY _ -> TRANS + >
+COPY 2 -> TRANS 2 >
+COPY 3 -> TRANS 3 >
+
+TRANS 0 -> TRANS_0 2 >
+TRANS 1 -> TRANS_1 3 >
+TRANS * -> DEC * >
+
+DEC 0 -> DEC 0 >
+DEC 1 -> DEC 1 >
+DEC _ -> FIRST_DEC _ <
+
+FIRST_DEC 0 -> FIRST_DEC 1 <
+FIRST_DEC 1 -> UPD 0 <
+
+UPD 0 -> UPD 0 <
+UPD 1 -> UPD 1 <
+UPD * -> RED * >
+
+RED 0 -> UDAL 1 >
+RED 1 -> LETSRECOVERY 1 <
+
+UDAL 1 -> UDAL 1 >
+UDAL _ -> DEL _ <
+
+DEL 1 -> LETSRECOVERY _ <
+
+LETSRECOVERY 0 -> LETSRECOVERY 0 <
+LETSRECOVERY 1 -> LETSRECOVERY 1 <
+LETSRECOVERY * -> RECOVERY * <
+
+TRANS_0 0 -> TRANS_0 0 >
+TRANS_0 1 -> TRANS_0 1 >
+TRANS_0 * -> TRANS_0 * >
+TRANS_0 _ -> COPY 0 <
+
+TRANS_1 0 -> TRANS_1 0 >
+TRANS_1 1 -> TRANS_1 1 >
+TRANS_1 * -> TRANS_1 * >
+TRANS_1 _ -> COPY 1 <
+
+RECOVERY 2 -> RECOVERY 0 <
+RECOVERY 3 -> RECOVERY 1 <
+RECOVERY + -> END + >
+
+END 0 -> END 0 >
+END 1 -> END 1 >
+END + -> END + >
+END / -> END + >
+END o -> END 0 >
+END l -> END 1 >
+END i -> END i >
+END j -> END j >
+END k -> END k >
+END m -> END m >
+END _ -> DECREMENT _ <
+END u -> DECREMENT u <
+END v -> DECREMENT v <
+END * -> END * >
+
+DECREMENT 0 -> DECREMENT m <
+DECREMENT 1 -> BEGIN i <
+DECREMENT i -> DECREMENT j <
+DECREMENT j -> BEGIN i ^
+DECREMENT k -> DECREMENT m <
+DECREMENT m -> BEGIN k ^
+DECREMENT * -> CHECK_FOR_MAGIC * >
+
+BEGIN 0 -> BEGIN i <
+BEGIN 1 -> BEGIN m <
+BEGIN i -> BEGIN i <
+BEGIN j -> BEGIN j <
+BEGIN k -> BEGIN k <
+BEGIN m -> BEGIN m <
+BEGIN * -> REDUCE * >
+BEGIN _ -> ACC _ >
+
+ACC _ -> AC 0 ^
+ACC 1 -> AC 1 ^
+ACC 0 -> AC 0 ^
+
+REDUCE i -> REAL_DELETE_LAST m >
+REDUCE j -> GO_BACK j <
+REDUCE k -> DELETE_LAST m >
+REDUCE m -> GO_BACK m <
+
+NEXT_MUL 0 -> NEXT_MUL 0 <
+NEXT_MUL 1 -> NEXT_MUL 1 <
+NEXT_MUL * -> CLEAR_MID * <
+
+CLEAR_MID 0 -> CLEAR_MID * <
+CLEAR_MID 1 -> CLEAR_MID * <
+CLEAR_MID *  -> CLEAR_MID * <
+CLEAR_MID + -> PLUS * <
+
+DELETE_LAST j -> DELETE_LAST j >
+DELETE_LAST m -> DELETE_LAST m >
+DELETE_LAST u -> DELETE u <
+DELETE_LAST v -> DELETE v <
+DELETE_LAST _ -> DELETE _ <
+
+DELETE j -> GO_BACK u <
+DELETE m -> GO_BACK v <
+
+REAL_DELETE_LAST j -> REAL_DELETE_LAST j >
+REAL_DELETE_LAST m -> REAL_DELETE_LAST m >
+REAL_DELETE_LAST _ -> DELETE_REAL _ <
+
+DELETE_REAL m -> GO_BACK _ <
+
+GO_BACK j -> GO_BACK j <
+GO_BACK m -> GO_BACK m <
+GO_BACK * -> SKIP_ZVEZD * <
+
+SKIP_ZVEZD 0 -> a 0 ^
+SKIP_ZVEZD 1 -> a 1 ^
+SKIP_ZVEZD * -> SKIP_ZVEZD * <
+
+PLUS 0 -> PLUS 0 <
+PLUS 1 -> PLUS 1 <
+PLUS _ -> END + >
+
+CHECK_FOR_MAGIC _ -> CLEANING _ <
+CHECK_FOR_MAGIC i -> MAGIC i ^
+CHECK_FOR_MAGIC j -> MAGIC j ^
+CHECK_FOR_MAGIC k -> MAGIC k ^
+CHECK_FOR_MAGIC m -> MAGIC m ^
+CHECK_FOR_MAGIC u -> MAGIC u ^
+CHECK_FOR_MAGIC v -> MAGIC v ^
+
+MAGIC i -> MAGIC 0 >
+MAGIC j -> MAGIC 0 >
+MAGIC k -> MAGIC 1 >
+MAGIC m -> MAGIC 1 >
+MAGIC u -> MAGIC 0 >
+MAGIC v -> MAGIC 1 >
+MAGIC _ -> NEXT_MUL _ <
+
+s 0 -> s 0 >
+s 1 -> s 1 >
+s + -> s + >
+s o -> a o <
+s l -> a l <
+s / -> a / <
+s 2 -> s 2 >
+s 3 -> s 3 >
+
+a 0 -> a0 o <
+a 1 -> a1 l <
+a + -> move / <
+
+a0 0 -> a0 0 <
+a0 1 -> a0 1 <
+a0 + -> add_a0 + <
+
+add_a0 2 -> add_a0 2 <
+add_a0 3 -> add_a0 3 <
+add_a0 0 -> s 2 ^
+add_a0 1 -> s 3 ^
+add_a0 _ -> s 2 ^
+
+a1 0 -> a1 0 <
+a1 1 -> a1 1 <
+a1 + -> add_a1 + <
+
+add_a1 2 -> add_a1 2 <
+add_a1 3 -> add_a1 3 <
+add_a1 0 -> s 3 ^
+add_a1 1 -> tr 2 <
+add_a1 _ -> s 3 ^
+
+tr 0 -> s 1 ^
+tr 1 -> tr 0 <
+tr _ -> s 1 ^
+
+move 2 -> move 0 <
+move 3 -> move 1 <
+move _ -> END _ >
+move 0 -> move 0 <
+move 1 -> move 1 <
+
+CLEANING * -> CLEANING _ <
+CLEANING 0 -> CLEANING _ <
+CLEANING 1 -> CLEANING _ <
+CLEANING + -> SKIP_ANS _ <
+
+SKIP_ANS 0 -> SKIP_ANS 0 <
+SKIP_ANS 1 -> SKIP_ANS 1 <
+SKIP_ANS _ -> AC _ >
